@@ -1,6 +1,6 @@
 # meteo
 
-A new Flutter project.
+Meteo est une application qui renseigne sur les conditions métereologiques des differentes grandes villes du Bénin
 
 ## Getting Started
 
