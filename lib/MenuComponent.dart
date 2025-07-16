@@ -12,151 +12,148 @@ class MenuComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: [
-        FutureBuilder(
-          future: fetchData(city),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return CircularProgressIndicator();
+    return FutureBuilder(
+      future: fetchData(city),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator());
 
-              case ConnectionState.none:
-                return Center(child: Text("Rien a signaler"));
+          case ConnectionState.none:
+            return Center(child: Text("Rien a signaler"));
 
-              case ConnectionState.active:
-                return Center(child: Text("Tentative de Connexion"));
+          case ConnectionState.active:
+            return Center(child: Text("Tentative de Connexion"));
 
-              case ConnectionState.done:
-                if (snapshot.hasError) {
-                  return Container(
-                      child: Center(
-                          child: Text("Verifier votre connexion internet ")));
-                }
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Container(
+                  child: Center(
+                      child: Text("Verifier votre connexion internet ")));
+            }
 
-                if (snapshot.data != null) {
-                  Weather weather = snapshot.data;
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                    child: Column(children: [
-                      Column(
+            if (snapshot.data != null) {
+              Weather weather = snapshot.data;
+              return Padding(
+                padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.my_location),
-                              Text("Your location Now")
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("  ${weather.location?.name}",
-                              style: TextStyle(fontSize: 30)),
-                          Image.network(
-                            "https:${weather.current?.condition?.icon}",
-                            height: 150,
-                            width: 150,
-                          ),
-                          Text("  ${weather.location?.country}"),
-                          Text("  ${weather.current?.tempC}°C",
-                              style: TextStyle(fontSize: 50)),
+                          Icon(Icons.my_location),
+                          Text("Votre localisation actuelle")
                         ],
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
-                      Column(
+                      Text("  ${weather.location?.name}",
+                          style: TextStyle(fontSize: 30)),
+                      Image.network(
+                        "https:${weather.current?.condition?.icon}",
+                        height: 150,
+                        width: 150,
+                      ),
+                      Text("  ${weather.location?.country}"),
+                      Text("  ${weather.current?.tempC}°C",
+                          style: TextStyle(fontSize: 50)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              WeatherInfoComponent(
-                                  icon: Icon(
-                                    Icons.air_outlined,
-                                    color: Colors.blue,
-                                  ),
-                                  text: Text("${weather.current?.visKm}km/h")),
-                              WeatherInfoComponent(
-                                  icon: Icon(
-                                    Icons.water_drop_outlined,
-                                    color: Colors.blue,
-                                  ),
-                                  text: Text("${weather.current?.humidity} %")),
-                              WeatherInfoComponent(
-                                  icon: Icon(
-                                    Icons.watch_later_outlined,
-                                    color: Colors.blue,
-                                  ),
-                                  text: Text(
-                                      "${weather.current?.pressureMb} mBar"))
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Temperature"),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text("Celcius"),
-                                    Icon(Icons.navigate_next),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Wind Speed"),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text("m/s"),
-                                    Icon(Icons.navigate_next),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Source"),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Text("westhergon"),
-                                    Icon(Icons.navigate_next),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                          WeatherInfoComponent(
+                              icon: Icon(
+                                Icons.air_outlined,
+                                color: Colors.blue,
+                              ),
+                              text: Text("${weather.current?.visKm}km/h")),
+                          WeatherInfoComponent(
+                              icon: Icon(
+                                Icons.water_drop_outlined,
+                                color: Colors.blue,
+                              ),
+                              text: Text("${weather.current?.humidity} %")),
+                          WeatherInfoComponent(
+                              icon: Icon(
+                                Icons.watch_later_outlined,
+                                color: Colors.blue,
+                              ),
+                              text: Text(
+                                  "${weather.current?.pressureMb} mBar"))
                         ],
                       ),
-                    ]),
-                  );
-                }
-                return Center(child: Text("FAIT"));
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Temperature"),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text("Celcius"),
+                                Icon(Icons.navigate_next),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Wind Speed"),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text("m/s"),
+                                Icon(Icons.navigate_next),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Source"),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text("westhergon"),
+                                Icon(Icons.navigate_next),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ]),
+              );
             }
-          },
-        ),
-      ],
+            return Center(child: Text("FAIT"));
+        }
+      },
     );
   }
 

@@ -22,8 +22,7 @@ class HomeComponent extends StatelessWidget {
             switch (snapshot.connectionState) {
 
               case ConnectionState.waiting:
-                print("mes donnes $snapshot");
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
 
               case ConnectionState.none:
                 return Center(child: Text("Rien a signaler"));
@@ -35,7 +34,7 @@ class HomeComponent extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Container(
                       child: Center(
-                          child: Text("Verifier Votre forfaire internet ")));
+                          child: Text("Verifier votre connexion internet ")));
                 }
                 if (snapshot.data != null) {
 
