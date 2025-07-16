@@ -20,7 +20,9 @@ class HomeComponent extends StatelessWidget {
           future: fetchData(city),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
+
               case ConnectionState.waiting:
+                print("mes donnes $snapshot");
                 return CircularProgressIndicator();
 
               case ConnectionState.none:
@@ -36,6 +38,7 @@ class HomeComponent extends StatelessWidget {
                           child: Text("Verifier Votre forfaire internet ")));
                 }
                 if (snapshot.data != null) {
+
                   Weather weather = snapshot.data;
                   return Container(
                     child: ListView(
@@ -46,6 +49,7 @@ class HomeComponent extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "${weather.location?.name}",
@@ -80,8 +84,8 @@ class HomeComponent extends StatelessWidget {
                                           topRight: Radius.circular(100))),
                                   child: Image.network(
                                     "https:${weather.current?.condition?.icon}",
-                                    height: 200,
-                                    width: 200,
+                                    height: 150,
+                                    width: 150,
                                   ),
                                 )
                               ],
@@ -102,30 +106,32 @@ class HomeComponent extends StatelessWidget {
                                           color: Colors.blue,
                                         ),
                                         text: Text(
-                                            "${weather.current?.visKm}km/h")),
+                                            "${weather.current?.visKm} km/h")),
                                     SizedBox(
                                       width: 80,
                                     ),
-                                    WeatherInfoComponent(
-                                        icon: Icon(
-                                          Icons.watch_later_outlined,
-                                          color: Colors.blue,
-                                        ),
-                                        text: Text(
-                                            "${weather.current?.pressureMb} mBar")),
-                                    SizedBox(
-                                      width: 80,
-                                    ),
-                                    WeatherInfoComponent(
-                                        icon: Icon(
-                                          Icons.water_drop_outlined,
-                                          color: Colors.blue,
-                                        ),
-                                        text: Text(
-                                            "${weather.current?.humidity} %")),
-                                    SizedBox(
-                                      width: 80,
-                                    ),
+                                   Column(
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     children: [
+                                     WeatherInfoComponent(
+                                         icon: Icon(
+                                           Icons.watch_later_outlined,
+                                           color: Colors.blue,
+                                         ),
+                                         text: Text(
+                                             "${weather.current?.pressureMb} mBar")),
+                                     SizedBox(
+                                       width: 20,
+                                     ),
+                                     WeatherInfoComponent(
+                                         icon: Icon(
+                                           Icons.water_drop_outlined,
+                                           color: Colors.blue,
+                                         ),
+                                         text: Text(
+                                             "${weather.current?.humidity} %")),
+                                   ],)
+
                                   ],
                                 )
                               ],
@@ -280,6 +286,7 @@ class HomeComponent extends StatelessWidget {
                     ),
                   );
                 }
+
                 return Center(child: Text("FAIT"));
             }
           }),

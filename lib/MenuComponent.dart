@@ -32,41 +32,40 @@ class MenuComponent extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Container(
                       child: Center(
-                          child: Text("Verifier Votre forfaire internet ")));
+                          child: Text("Verifier votre connexion internet ")));
                 }
 
                 if (snapshot.data != null) {
                   Weather weather = snapshot.data;
-                  return Container(
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
                     child: Column(children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.my_location),
-                                Text("Your location Now")
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("  ${weather.location?.name}",
-                                style: TextStyle(fontSize: 30)),
-                            Image.network(
-                              "https:${weather.current?.condition?.icon}",
-                              height: 150,
-                              width: 150,
-                            ),
-                            Text("  ${weather.location?.country}"),
-                            Text("  ${weather.current?.tempC}°C",
-                                style: TextStyle(fontSize: 50)),
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.my_location),
+                              Text("Your location Now")
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("  ${weather.location?.name}",
+                              style: TextStyle(fontSize: 30)),
+                          Image.network(
+                            "https:${weather.current?.condition?.icon}",
+                            height: 150,
+                            width: 150,
+                          ),
+                          Text("  ${weather.location?.country}"),
+                          Text("  ${weather.current?.tempC}°C",
+                              style: TextStyle(fontSize: 50)),
+                        ],
                       ),
                       SizedBox(
                         height: 30,
